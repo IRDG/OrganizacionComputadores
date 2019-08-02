@@ -1,0 +1,3 @@
+on IP Catalog
+
+Installed IP >> Library >> Basic Functions >> On Chip Memory >> ROM: 1-PORT
