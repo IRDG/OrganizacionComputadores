@@ -1,0 +1,97 @@
+
+--******************************************************--
+--        PONTIFICIA UNIVERSIDAD JAVERIANA              --
+--                Disegno Digital                       --
+--          Seccion de Tecnicas Digitales               --
+-- 													              --
+-- Titulo :                                             --
+-- Fecha  :  	D:XX M:XX Y:2019                         --
+--******************************************************--
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.all;
+LIBRARY ALTERA;
+USE ALTERA.altera_primitives_components.all;
+
+--******************************************************--
+-- Comentarios:
+-- 
+-- 
+--******************************************************--
+
+ENTITY LabMemorias IS
+	
+	GENERIC(
+				WordLength : INTEGER :=  8;
+				AddressBus : INTEGER := 11;  -- 4096 espacios de memoria
+			 );
+	PORT	 (
+				DataRwIn  : IN  STD_LOGIC;
+				Clk       : IN  STD_LOGIC;
+				Reset     : IN  STD_LOGIC;
+				AddressRw : OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
+				DataRwOut : OUT STD_LOGIC
+			 );
+	
+END ENTITY LabMemorias;
+
+ARCHITECTURE LabMemoriasArch OF LabMemorias IS
+
+SIGNAL DataBusRom    : STD_LOGIC_VECTOR( 7 DOWNTO 0);
+SIGNAL AddressBusRom : STD_LOGIC_VECTOR(11 DOWNTO 0);
+SIGNAL EnableRom     : STD_LOGIC;
+
+BEGIN
+
+--******************************************************--
+-- 
+-- 
+-- 
+--******************************************************--
+
+--ROM: ENTITY WORK.RomMemory
+--PORT MAP	  (Address => AddressBusRom,
+--				Clock   => Clk,
+--				Rden    => EnableRom,
+--				Q       => DataBusRom
+--			  );
+
+ControlUnit: ENTITY WORK.ControlUnit
+PORT MAP	  (EnableCounter => AddressBusRom,
+				Clk           => Clk,
+				EnableRom     => EnableRom,
+				ChipSelectN   => DataBusRom,
+				OutputEnableN => 
+				ReadOrWriteN  => 
+			  );
+--
+
+AddressCounter: ENTITY WORK.Counter
+PORT MAP	  (EnableCounter => AddressBusRom,
+				Clk           => Clk,
+				EnableRom     => EnableRom,
+				ChipSelectN   => DataBusRom,
+				OutputEnableN => 
+				ReadOrWriteN  => 
+			  );
+
+--
+
+
+
+--******************************************************--
+-- 
+-- Summon This Block:
+-- 
+--******************************************************--
+--BlockN: ENTITY WORK.LabMemorias 
+--GENERIC MAP(GenericVar => #
+--			  )
+--PORT MAP	  (Sig => SLV,
+--				Sig => SLV,
+--				Sig => SLV,
+--				Sig => SLV
+--			  );
+--******************************************************--
+
+END LabMemoriasArch;
